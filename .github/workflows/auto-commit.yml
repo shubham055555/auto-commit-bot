@@ -1,0 +1,25 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at 5:30 AM IST
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Make a commit
+        run: |
+          git config --global user.name "shubham055555"
+          git config --global user.email "shubhamsharmaa5aug@gmail.com"
+          echo "Commit made on $(date)" >> commit.log
+          git add commit.log
+          git commit -m "Auto commit on $(date)"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
